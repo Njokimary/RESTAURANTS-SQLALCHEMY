@@ -1,7 +1,7 @@
 import sqlalchemy
-from sqlalchemy import Column,String,Integer,create_engine,relationship,ForeignKey,session
+from sqlalchemy import Column,String,Integer,create_engine,ForeignKey
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy.orm import sessionmaker,relationship
 
 db_url = "sqlite:///restaurant.db"
 engine = create_engine(db_url)
