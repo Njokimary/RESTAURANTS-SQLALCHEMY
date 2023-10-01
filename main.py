@@ -64,3 +64,7 @@ class Review(Base):
     
 # Create the database schema
 Base.metadata.create_all(engine)
+
+# Create a session
+Session = sessionmaker(bind=engine)
+session = Session()
