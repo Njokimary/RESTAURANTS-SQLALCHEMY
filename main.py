@@ -72,3 +72,20 @@ session = Session()
 customer1 = Customer(first_name="Njoki", last_name="Mary")
 session.add(customer1)
 session.commit()
+
+customer2 = Customer(first_name="Brown", last_name="Ice")
+session.add(customer2)
+session.commit()
+# Add a restaurant
+restaurant1 = Restaurant(name="Pick $ GO", price=700)
+session.add(restaurant1)
+session.commit()
+
+restaurant2 = Restaurant(name="Tasty Pick", price=1000)
+session.add(restaurant2)
+session.commit()
+
+# Add a review for the restaurant by the customer
+customer1.add_review(restaurant2, rating=6, comment="A great dining experience.")
+
+
