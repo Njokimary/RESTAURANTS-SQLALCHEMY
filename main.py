@@ -2,7 +2,7 @@ from sqlalchemy import Column, String, Integer, create_engine, ForeignKey
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, relationship
 
-db_url = "sqlite:///restaurant.db"
+db_url = "sqlite:///restaurants.db"
 engine = create_engine(db_url)
 
 Base = declarative_base()
@@ -16,7 +16,7 @@ class Restaurant(Base):
     customers = relationship('Customer', secondary='reviews', back_populates='restaurants', overlaps="reviews")
     
     def all_reviews(self):
-        return [f"Review for {self.name} by {review.customer.full_name()}: {review.rating} stars." for review in self.reviews]
+        return [f"Review for {self.name} by {review.customer.full_name()}: {review.rating} stars. - {review.comment}" for review in self.reviews]
 
     @classmethod
     def fanciest(cls):
@@ -37,8 +37,8 @@ class Customer(Base):
         if self.reviews:
             return max(self.reviews, key=lambda review: review.rating).restaurant
 
-    def add_review(self, restaurant, rating):
-        new_review = Review(restaurant=restaurant, customer=self, rating=rating)
+    def add_review(self, restaurant, rating, comment):
+        new_review = Review(restaurant=restaurant, customer=self, rating=rating,  comment=comment)
         session.add(new_review)
         session.commit()
 
@@ -59,8 +59,7 @@ class Review(Base):
     customer = relationship('Customer', back_populates='reviews', overlaps="customers,restaurants")
     
     def full_review(self):
-        return f"Review for {self.restaurant.name} by {self.customer.full_name()}: {self.rating} stars."
-
+         return f"Review for {self.restaurant.name} by {self.customer.full_name()}: {self.rating} stars. - {self.comment}"
 # Create the database schema
 Base.metadata.create_all(engine)
 
@@ -88,4 +87,7 @@ session.commit()
 # Add a review for the restaurant by the customer
 customer1.add_review(restaurant2, rating=6, comment="A great dining experience.")
 
-
+# Retrieve all reviews for the restaurant
+restaurant_reviews = restaurant2.all_reviews()
+for review in restaurant_reviews:
+    print(review)
