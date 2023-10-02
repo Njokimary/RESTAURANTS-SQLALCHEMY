@@ -91,3 +91,17 @@ customer1.add_review(restaurant2, rating=6, comment="A great dining experience."
 restaurant_reviews = restaurant2.all_reviews()
 for review in restaurant_reviews:
     print(review)
+
+# Retrieve the fanciest restaurant
+fanciest_restaurant = Restaurant.fanciest()
+print(f"The fanciest restaurant is {fanciest_restaurant.name}.")
+
+# Retrieve the favorite restaurant of the customer
+favorite_restaurant = customer1.favorite_restaurant()
+if favorite_restaurant:
+    print(f"{customer1.full_name()}'s favorite restaurant is {favorite_restaurant.name}.")
+else:
+    print(f"{customer1.full_name()} hasn't reviewed any restaurants yet.")
+
+# Delete all reviews for a restaurant by the customer
+customer1.delete_reviews(restaurant1)
